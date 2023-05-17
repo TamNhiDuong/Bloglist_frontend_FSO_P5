@@ -9,6 +9,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -45,6 +46,10 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      setSuccessMessage('Login succeed')
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
     } catch (exception) {
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
@@ -53,7 +58,7 @@ const App = () => {
     }
   }
 
-  const addBlog = (event) => {
+  const addBlog = async (event) => {
     event.preventDefault()
     const blog = {
       title: title,
@@ -61,15 +66,22 @@ const App = () => {
       url: url
     }
 
-    blogService
-      .create(blog)
-      .then(res => {
-        console.log('res: ', res)
-        setBlogs(blogs.concat(res))
-        setTitle('')
-        setAuthor('')
-        setUrl('')
-      })
+    try {
+      const savedBlog = await blogService.create(blog)
+      setBlogs(blogs.concat(savedBlog))
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      setSuccessMessage('New blog added')
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    } catch (e) {
+      setErrorMessage('Cannot add new blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
   }
 
 
@@ -159,6 +171,8 @@ const App = () => {
 
   return (
     <div>
+      {errorMessage && <p style={{borderStyle:'solid', borderWidth: 2, borderColor: 'red', color: 'red'}}>{errorMessage}</p>}
+      {successMessage && <p style={{borderStyle:'solid', borderWidth: 2, borderColor: 'blue', color: 'blue'}}>{successMessage && successMessage}</p>}
       {!user && loginForm()}
       {user && <div>
         {userInfo()}
