@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import NewBlogForm from './components/NewBlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -136,47 +137,21 @@ const App = () => {
     )
   }
 
-  const newBlogForm = () => {
-    return (
-      <div>
-        <h2>Create new blog</h2>
-        <form onSubmit={addBlog}>
-          <div>Title
-            <input
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-            />
-          </div>
-
-          <div>Author
-            <input
-              value={author}
-              onChange={e => setAuthor(e.target.value)}
-            />
-          </div>
-
-          <div>
-            url
-            <input
-              value={url}
-              onChange={e => setUrl(e.target.value)}
-            />
-          </div>
-
-          <button type="submit">save</button>
-        </form>
-      </div>
-    )
-  }
-
   return (
     <div>
-      {errorMessage && <p style={{borderStyle:'solid', borderWidth: 2, borderColor: 'red', color: 'red'}}>{errorMessage}</p>}
-      {successMessage && <p style={{borderStyle:'solid', borderWidth: 2, borderColor: 'blue', color: 'blue'}}>{successMessage && successMessage}</p>}
+      {errorMessage && <p style={{ borderStyle: 'solid', borderWidth: 2, borderColor: 'red', color: 'red' }}>{errorMessage}</p>}
+      {successMessage && <p style={{ borderStyle: 'solid', borderWidth: 2, borderColor: 'blue', color: 'blue' }}>{successMessage && successMessage}</p>}
       {!user && loginForm()}
       {user && <div>
         {userInfo()}
-        {newBlogForm()}
+        <NewBlogForm
+          addBlog={addBlog}
+          title={title}
+          setTitle={setTitle}
+          author={author}
+          setAuthor={setAuthor}
+          url={url}
+          setUrl={setUrl} />
         {blogList()}
       </div>}
     </div>
