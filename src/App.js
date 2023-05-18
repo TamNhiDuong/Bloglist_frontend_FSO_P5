@@ -16,6 +16,8 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
+  const [newBlogFormVisible, setNewBlogFormVisible] = useState(false)
+
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
@@ -60,6 +62,7 @@ const App = () => {
   }
 
   const addBlog = async (event) => {
+    setNewBlogFormVisible(false)
     event.preventDefault()
     const blog = {
       title: title,
@@ -137,6 +140,9 @@ const App = () => {
     )
   }
 
+  const hideWhenFormVisible = { display: newBlogFormVisible ? 'none' : '' }
+  const showWhenFormVisible = { display: newBlogFormVisible ? '' : 'none' }
+
   return (
     <div>
       {errorMessage && <p style={{ borderStyle: 'solid', borderWidth: 2, borderColor: 'red', color: 'red' }}>{errorMessage}</p>}
@@ -144,14 +150,24 @@ const App = () => {
       {!user && loginForm()}
       {user && <div>
         {userInfo()}
-        <NewBlogForm
-          addBlog={addBlog}
-          title={title}
-          setTitle={setTitle}
-          author={author}
-          setAuthor={setAuthor}
-          url={url}
-          setUrl={setUrl} />
+
+        <div style={hideWhenFormVisible}>
+          <button onClick={() => setNewBlogFormVisible(true)}>new blog</button>
+        </div>
+
+        <div style={showWhenFormVisible}>
+          <NewBlogForm
+            addBlog={addBlog}
+            title={title}
+            setTitle={setTitle}
+            author={author}
+            setAuthor={setAuthor}
+            url={url}
+            setUrl={setUrl} />
+          <button onClick={() => setNewBlogFormVisible(false)}>cancel</button>
+        </div>
+
+
         {blogList()}
       </div>}
     </div>
