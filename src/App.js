@@ -12,9 +12,6 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
 
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
 
   const [newBlogFormVisible, setNewBlogFormVisible] = useState(false)
 
@@ -61,21 +58,12 @@ const App = () => {
     }
   }
 
-  const addBlog = async (event) => {
+  const addBlog = async (blog) => {
     setNewBlogFormVisible(false)
-    event.preventDefault()
-    const blog = {
-      title: title,
-      author: author,
-      url: url
-    }
 
     try {
       const savedBlog = await blogService.create(blog)
       setBlogs(blogs.concat(savedBlog))
-      setTitle('')
-      setAuthor('')
-      setUrl('')
       setSuccessMessage('New blog added')
       setTimeout(() => {
         setSuccessMessage(null)
@@ -156,14 +144,7 @@ const App = () => {
         </div>
 
         <div style={showWhenFormVisible}>
-          <NewBlogForm
-            addBlog={addBlog}
-            title={title}
-            setTitle={setTitle}
-            author={author}
-            setAuthor={setAuthor}
-            url={url}
-            setUrl={setUrl} />
+          <NewBlogForm addBlog={addBlog} />
           <button onClick={() => setNewBlogFormVisible(false)}>cancel</button>
         </div>
 
