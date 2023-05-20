@@ -12,7 +12,6 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
 
-
   const [newBlogFormVisible, setNewBlogFormVisible] = useState(false)
 
   useEffect(() => {

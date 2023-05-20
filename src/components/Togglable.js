@@ -1,7 +1,5 @@
-import { useState } from 'react'
-
 const Togglable = (props) => {
-  const [visible, setVisible] = useState(false)
+  const { buttonLabel, closeButtonLabel, setVisible, visible } = props
 
   const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
@@ -12,12 +10,10 @@ const Togglable = (props) => {
 
   return (
     <div>
-      <div style={hideWhenVisible}>
-        <button onClick={toggleVisibility}>{props.buttonLabel}</button>
-      </div>
-      <div style={showWhenVisible}>
-        {props.children}
-        <button onClick={toggleVisibility}>cancel</button>
+      {props.children}
+
+      <div style={visible ? showWhenVisible: hideWhenVisible}>
+        <button onClick={toggleVisibility}>{visible ? closeButtonLabel : buttonLabel}</button>
       </div>
     </div>
   )
