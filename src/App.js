@@ -86,8 +86,13 @@ const App = () => {
         }
       })
       setBlogs(clonedBlogs)
+
+      setSuccessMessage('Likes has been updated')
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
     } catch (e) {
-      setErrorMessage('Cannot add new blog')
+      setErrorMessage('Cannot update likes')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
