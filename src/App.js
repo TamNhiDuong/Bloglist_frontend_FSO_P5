@@ -24,7 +24,6 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      console.log('pared user: ', user)
       blogService.setToken(user.token)
       setUser(user)
     }
@@ -62,11 +61,31 @@ const App = () => {
 
     try {
       const savedBlog = await blogService.create(blog)
+      console.log('saved blog: ', savedBlog)
       setBlogs(blogs.concat(savedBlog))
+      console.log('all blogs: ', blogs.concat(savedBlog))
       setSuccessMessage('New blog added')
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
+    } catch (e) {
+      setErrorMessage('Cannot add new blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
+  const updateBlog = async (id, blog) => {
+    try {
+      const updatedBlog = await blogService.updateBlog(id, blog)
+      const clonedBlogs = [...blogs]
+      clonedBlogs.forEach((blog, i) => {
+        if (blog.id === updatedBlog.id) {
+          clonedBlogs[i] = updatedBlog
+        }
+      })
+      setBlogs(clonedBlogs)
     } catch (e) {
       setErrorMessage('Cannot add new blog')
       setTimeout(() => {
@@ -121,7 +140,7 @@ const App = () => {
         <h2>blogs</h2>
         {
           blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
           )
         }</div>
     )
@@ -129,11 +148,12 @@ const App = () => {
 
   const hideWhenFormVisible = { display: newBlogFormVisible ? 'none' : '' }
   const showWhenFormVisible = { display: newBlogFormVisible ? '' : 'none' }
-
+  const successMessageStyle = { borderStyle: 'solid', borderWidth: 2, borderColor: 'blue', color: 'blue' }
+  const errMessageStyle = { borderStyle: 'solid', borderWidth: 2, borderColor: 'red', color: 'red' }
   return (
     <div>
-      {errorMessage && <p style={{ borderStyle: 'solid', borderWidth: 2, borderColor: 'red', color: 'red' }}>{errorMessage}</p>}
-      {successMessage && <p style={{ borderStyle: 'solid', borderWidth: 2, borderColor: 'blue', color: 'blue' }}>{successMessage && successMessage}</p>}
+      {errorMessage && <p style={errMessageStyle}>{errorMessage}</p>}
+      {successMessage && <p style={successMessageStyle}>{successMessage && successMessage}</p>}
       {!user && loginForm()}
       {user && <div>
         {userInfo()}
