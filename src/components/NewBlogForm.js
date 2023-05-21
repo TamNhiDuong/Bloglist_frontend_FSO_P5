@@ -14,6 +14,11 @@ const NewBlogForm = ({ addBlog }) => {
         }
 
         addBlog(blog)
+
+        // refresh states
+        setTitle('')
+        setAuthor('')
+        setUrl('')
     }
 
 

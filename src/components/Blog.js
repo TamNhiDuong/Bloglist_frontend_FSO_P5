@@ -28,8 +28,6 @@ const Blog = ({ blog }) => {
     </div>
   )
 
-  console.log('visible: ', visible)
-  console.log('blog: ', blog)
   return (
     <>
       <Togglable buttonLabel='view' closeButtonLabel='hide' visible={visible} setVisible={setVisible}>
