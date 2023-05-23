@@ -33,6 +33,7 @@ const Blog = ({ blog, updateBlog }) => {
         <button onClick={increaseLikes}>like</button>
       </div>
       <div>Author: {blog.author}</div>
+      <div>User: {blog.user ? blog.user.name : ''}</div>
     </div>
   )
 

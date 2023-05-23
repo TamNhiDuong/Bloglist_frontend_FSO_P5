@@ -15,9 +15,16 @@ const App = () => {
   const [newBlogFormVisible, setNewBlogFormVisible] = useState(false)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
+    async function fetchBlogs() {
+      const blogs = await blogService.getAll()
+
+      const blogsWithLikes = blogs.filter(b => b.likes !== undefined)
+      const blogsWithoutLikes = blogs.filter(b => b.likes === undefined)
+
+      const sortedBlogs = blogsWithLikes.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
+      setBlogs(sortedBlogs.concat(blogsWithoutLikes))
+    }
+    fetchBlogs()
   }, [user])
 
   useEffect(() => {
@@ -79,6 +86,7 @@ const App = () => {
   const updateBlog = async (id, blog) => {
     try {
       const updatedBlog = await blogService.updateBlog(id, blog)
+      console.log('updated: ', updatedBlog)
       const clonedBlogs = [...blogs]
       clonedBlogs.forEach((blog, i) => {
         if (blog.id === updatedBlog.id) {
