@@ -68,9 +68,8 @@ const App = () => {
 
     try {
       const savedBlog = await blogService.create(blog)
-      console.log('saved blog: ', savedBlog)
       setBlogs(blogs.concat(savedBlog))
-      console.log('all blogs: ', blogs.concat(savedBlog))
+
       setSuccessMessage('New blog added')
       setTimeout(() => {
         setSuccessMessage(null)
@@ -101,6 +100,24 @@ const App = () => {
       }, 5000)
     } catch (e) {
       setErrorMessage('Cannot update likes')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
+  const deleteBlog = async (id) => {
+    try {
+      const deletedBlog = await blogService.deleteBlog(id)
+      const filteredBlogs = blogs.filter(b => b.id !== id)
+      setBlogs(filteredBlogs)
+
+      setSuccessMessage('Blog deleted')
+      setTimeout(() => {
+        setSuccessMessage(null)
+      }, 5000)
+    } catch {
+      setErrorMessage('Cannot delete')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -153,7 +170,7 @@ const App = () => {
         <h2>blogs</h2>
         {
           blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
+            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} user={user} deleteBlog={deleteBlog} />
           )
         }</div>
     )

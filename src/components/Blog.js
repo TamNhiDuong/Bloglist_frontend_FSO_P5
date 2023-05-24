@@ -2,7 +2,7 @@ import Togglable from './Togglable'
 
 import { useState } from 'react'
 
-const Blog = ({ blog, updateBlog }) => {
+const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
   const [visible, setVisible] = useState(false)
 
   const blogStyle = {
@@ -17,7 +17,7 @@ const Blog = ({ blog, updateBlog }) => {
     const blogId = blog.id
     const updateBlogObj = {
       user: blog.user.id,
-      likes: blog.likes + 1, 
+      likes: blog.likes + 1,
       author: blog.author,
       title: blog.title,
       url: blog.url,
@@ -30,10 +30,14 @@ const Blog = ({ blog, updateBlog }) => {
       <div>Title: {blog.title}</div>
       <div>Url: {blog.url}</div>
       <div>Likes: {blog.likes}
-        <button onClick={increaseLikes}>like</button>
+        <button onClick={increaseLikes} style={{ color: 'blue' }}>like</button>
       </div>
       <div>Author: {blog.author}</div>
       <div>User: {blog.user ? blog.user.name : ''}</div>
+      {(user && blog.user && user.id === blog.user.id) &&
+        <button onClick={deleteB} name='delete' style={{ color: 'red' }}>delete</button>
+      }
+
     </div>
   )
 
@@ -42,6 +46,10 @@ const Blog = ({ blog, updateBlog }) => {
       {blog.title} {blog.author}
     </div>
   )
+
+  const deleteB = () => {
+    deleteBlog(blog.id)
+  }
 
   return (
     <>

@@ -33,5 +33,16 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+const deleteBlog = async (blogId) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+
+  const url = baseUrl + '/' + blogId
+
+  const response = await axios.delete(url, config)
+  return response.data
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, setToken, updateBlog }
+export default { getAll, create, setToken, updateBlog, deleteBlog }
