@@ -28,4 +28,6 @@ Togglable.propTypes = {
   visible: PropTypes.bool.isRequired
 }
 
+Togglable.displayName = 'Togglable'
+
 export default Togglable

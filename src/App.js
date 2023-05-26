@@ -108,7 +108,7 @@ const App = () => {
 
   const deleteBlog = async (id) => {
     try {
-      const deletedBlog = await blogService.deleteBlog(id)
+      await blogService.deleteBlog(id)
       const filteredBlogs = blogs.filter(b => b.id !== id)
       setBlogs(filteredBlogs)
 
@@ -116,7 +116,7 @@ const App = () => {
       setTimeout(() => {
         setSuccessMessage(null)
       }, 5000)
-    } catch {
+    } catch(e) {
       setErrorMessage('Cannot delete')
       setTimeout(() => {
         setErrorMessage(null)
