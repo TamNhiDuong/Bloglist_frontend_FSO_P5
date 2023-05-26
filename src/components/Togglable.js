@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types'
+
 const Togglable = (props) => {
   const { buttonLabel, closeButtonLabel, setVisible, visible } = props
 
@@ -17,6 +19,13 @@ const Togglable = (props) => {
       </div>
     </div>
   )
+}
+
+Togglable.propTypes = {
+  buttonLabel: PropTypes.string.isRequired,
+  closeButtonLabel: PropTypes.string.isRequired,
+  setVisible: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired
 }
 
 export default Togglable
