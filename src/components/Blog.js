@@ -28,8 +28,8 @@ const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
   const blogDetails = () => (
     <div style={{ display: 'flex', flexDirection: 'column', flex: 1, ...blogStyle }}>
       <div>Title: {blog.title}</div>
-      <div>Url: {blog.url}</div>
-      <div>Likes: {blog.likes}
+      <div className='url'>Url: {blog.url}</div>
+      <div className='like'>Likes: {blog.likes}
         <button onClick={increaseLikes} style={{ color: 'blue' }}>like</button>
       </div>
       <div>Author: {blog.author}</div>
@@ -55,9 +55,10 @@ const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
 
   return (
     <>
-      <Togglable buttonLabel='view' closeButtonLabel='hide' visible={visible} setVisible={setVisible}>
+      <Togglable buttonLabel='view' closeButtonLabel='hide' visible={visible} setVisible={(bool) => setVisible(bool)}>
         {visible ? blogDetails() : blogPreview()}
       </Togglable>
+      <button onClick={() => setVisible(!visible)}>open</button>
     </>
 
 
