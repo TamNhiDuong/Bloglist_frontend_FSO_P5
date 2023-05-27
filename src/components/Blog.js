@@ -41,8 +41,8 @@ const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
     </div>
   )
 
-  const blogTitle = () => (
-    <div style={blogStyle}>
+  const blogPreview = () => (
+    <div style={blogStyle} className='blogPreview'>
       {blog.title} {blog.author}
     </div>
   )
@@ -56,7 +56,7 @@ const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
   return (
     <>
       <Togglable buttonLabel='view' closeButtonLabel='hide' visible={visible} setVisible={setVisible}>
-        {visible ? blogDetails() : blogTitle()}
+        {visible ? blogDetails() : blogPreview()}
       </Togglable>
     </>
 
