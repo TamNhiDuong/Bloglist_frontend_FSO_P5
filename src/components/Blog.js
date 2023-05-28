@@ -17,7 +17,7 @@ const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
     <div style={{ display: 'flex', flexDirection: 'column', flex: 1, ...blogStyle }}>
       <div>Title: {blog.title}</div>
       <div className='url'>Url: {blog.url}</div>
-      <div className='like' >{blog.likes}
+      <div className='like' >Likes: {blog.likes}
         <button onClick={() => updateBlog(blog.id, blog)} style={{ color: 'blue' }} className='lbtn'>like</button>
       </div>
       <div>Author: {blog.author}</div>

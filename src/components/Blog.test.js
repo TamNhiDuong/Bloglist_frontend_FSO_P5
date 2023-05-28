@@ -60,6 +60,7 @@ test('clicking the like button twice, the event handler the component received a
   const viewButton = screen.getByText('view')
   await user.click(viewButton)
 
+  // Click "like" button twice
   const likeButton = container.querySelector('.lbtn')
   await user.click(likeButton)
   await user.click(likeButton)
