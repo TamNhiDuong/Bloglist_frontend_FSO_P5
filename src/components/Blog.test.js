@@ -32,12 +32,36 @@ test('clicking the button calls event handler', async () => {
   )
 
   const user = userEvent.setup()
-  const button = screen.getByText('open')
+  const button = screen.getByText('view')
   await user.click(button)
 
   const urlElement = container.querySelector('.url')
   expect(urlElement).toHaveTextContent('Url: http://localhost:3000/')
 
   const likeElement = container.querySelector('.like')
-  expect(likeElement).toHaveTextContent('Likes: 0')
+  expect(likeElement).toHaveTextContent('0')
+})
+
+test('clicking the like button twice, the event handler the component received as props is called twice', async () => {
+  const blog = {
+    title: 'Blog click test',
+    author: 'Tester',
+    likes: 0,
+    url: 'http://localhost:3000/'
+  }
+
+  const mockHandler = jest.fn()
+  const { container } = render(
+    <Blog blog={blog} updateBlog={mockHandler} />
+  )
+
+  // Click "view" button
+  const user = userEvent.setup()
+  const viewButton = screen.getByText('view')
+  await user.click(viewButton)
+
+  const likeButton = container.querySelector('.lbtn')
+  await user.click(likeButton)
+  await user.click(likeButton)
+  expect(mockHandler.mock.calls).toHaveLength(2)
 })

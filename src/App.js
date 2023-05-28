@@ -84,11 +84,17 @@ const App = () => {
 
   const updateBlog = async (id, blog) => {
     try {
-      const updatedBlog = await blogService.updateBlog(id, blog)
-      console.log('updated: ', updatedBlog)
+      const updateBlogObj = {
+        user: blog.user.id,
+        likes: blog.likes + 1,
+        author: blog.author,
+        title: blog.title,
+        url: blog.url,
+      }
+      const updatedBlog = await blogService.updateBlog(id, updateBlogObj)
       const clonedBlogs = [...blogs]
-      clonedBlogs.forEach((blog, i) => {
-        if (blog.id === updatedBlog.id) {
+      clonedBlogs.forEach((b, i) => {
+        if (b.id === updatedBlog.id) {
           clonedBlogs[i] = updatedBlog
         }
       })

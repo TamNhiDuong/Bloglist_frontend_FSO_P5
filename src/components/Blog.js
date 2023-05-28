@@ -13,24 +13,12 @@ const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
     marginBottom: 5
   }
 
-  const increaseLikes = () => {
-    const blogId = blog.id
-    const updateBlogObj = {
-      user: blog.user.id,
-      likes: blog.likes + 1,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url,
-    }
-    updateBlog(blogId, updateBlogObj)
-  }
-
   const blogDetails = () => (
     <div style={{ display: 'flex', flexDirection: 'column', flex: 1, ...blogStyle }}>
       <div>Title: {blog.title}</div>
       <div className='url'>Url: {blog.url}</div>
-      <div className='like'>Likes: {blog.likes}
-        <button onClick={increaseLikes} style={{ color: 'blue' }}>like</button>
+      <div className='like' >{blog.likes}
+        <button onClick={() => updateBlog(blog.id, blog)} style={{ color: 'blue' }} className='lbtn'>like</button>
       </div>
       <div>Author: {blog.author}</div>
       <div>User: {blog.user ? blog.user.name : ''}</div>
@@ -58,7 +46,6 @@ const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
       <Togglable buttonLabel='view' closeButtonLabel='hide' visible={visible} setVisible={(bool) => setVisible(bool)}>
         {visible ? blogDetails() : blogPreview()}
       </Togglable>
-      <button onClick={() => setVisible(!visible)}>open</button>
     </>
 
 
