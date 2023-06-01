@@ -35,4 +35,23 @@ describe('Blog app e2e test', () => {
       cy.contains('Wrong credentials')
     })
   })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      // log in user here
+      cy.get('#username').type('testusername')
+      cy.get('#password').type('testpassword')
+      cy.get('#login-button').click()
+      cy.contains('Tester logged in')
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('new blog').click()
+      cy.get('#blog-title').type('Test blog')
+      cy.get('#blog-author').type('Test blog author')
+      cy.get('#blog-url').type('Test blog url')
+      cy.contains('save').click()
+      cy.contains('Test blog')
+    })
+  })
 })
