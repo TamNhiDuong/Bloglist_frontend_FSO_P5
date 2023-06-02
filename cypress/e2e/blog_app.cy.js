@@ -43,6 +43,13 @@ describe('Blog app e2e test', () => {
       cy.get('#password').type('testpassword')
       cy.get('#login-button').click()
       cy.contains('Tester logged in')
+
+      // create a blog
+      cy.contains('new blog').click()
+      cy.get('#blog-title').type('First blog')
+      cy.get('#blog-author').type('First blog author')
+      cy.get('#blog-url').type('First blog url')
+      cy.contains('save').click()
     })
 
     it('A blog can be created', function() {
@@ -52,6 +59,12 @@ describe('Blog app e2e test', () => {
       cy.get('#blog-url').type('Test blog url')
       cy.contains('save').click()
       cy.contains('Test blog')
+    })
+
+    it('User can like a blog', function() {
+      cy.contains('First blog').parent().find('button').click()
+      cy.contains('like').click()
+      cy.contains('Likes: 1')
     })
   })
 })
