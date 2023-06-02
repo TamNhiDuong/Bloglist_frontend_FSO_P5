@@ -66,5 +66,19 @@ describe('Blog app e2e test', () => {
       cy.contains('like').click()
       cy.contains('Likes: 1')
     })
+
+    it('Creator of a blog can delete it', function() {
+      // create a blog
+      cy.contains('new blog').click()
+      cy.get('#blog-title').type('Test Blog 2')
+      cy.get('#blog-author').type('Test author 2')
+      cy.get('#blog-url').type('Test blog url 2')
+      cy.contains('save').click()
+      // view blog
+      cy.contains('Test Blog 2').parent().find('button').click()
+      // delete blog
+      cy.contains('delete').click()
+      cy.contains('Test Blog 2').should('not.exist')
+    })
   })
 })
