@@ -80,5 +80,28 @@ describe('Blog app e2e test', () => {
       cy.contains('delete').click()
       cy.contains('Test Blog 2').should('not.exist')
     })
+
+    it('Only creator of a blog can see delete button, not everyone', function() {
+      // creator of the blog can see delete button
+      cy.contains('First blog').parent().find('button').click()
+      cy.contains('delete')
+
+      // logout, create a new acc, login, not see delete button of "First blog"
+      cy.contains('logout').click()
+
+      const user = {
+        name: 'Tester2',
+        username: 'testusername2',
+        password: 'testpassword2'
+      }
+      cy.request('POST', 'http://localhost:3003/api/users/', user)
+
+      cy.get('#username').type('testusername2')
+      cy.get('#password').type('testpassword2')
+      cy.get('#login-button').click()
+
+      cy.contains('First blog').parent().find('button').click()
+      cy.contains('delete').should('not.exist')
+    })
   })
 })
