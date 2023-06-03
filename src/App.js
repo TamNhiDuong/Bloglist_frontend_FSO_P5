@@ -14,15 +14,19 @@ const App = () => {
 
   const [newBlogFormVisible, setNewBlogFormVisible] = useState(false)
 
+  const sortBlogsByLikes = (blogs) => {
+    const blogsWithLikes = blogs.filter(b => b.likes !== undefined)
+    const blogsWithoutLikes = blogs.filter(b => b.likes === undefined)
+    const sortedBlogs = blogsWithLikes.sort((a, b) => (a.likes < b.likes) ? 1 : ((b.likes < a.likes) ? -1 : 0))
+    return sortedBlogs.concat(blogsWithoutLikes)
+  }
+
   useEffect(() => {
     async function fetchBlogs() {
       const blogs = await blogService.getAll()
 
-      const blogsWithLikes = blogs.filter(b => b.likes !== undefined)
-      const blogsWithoutLikes = blogs.filter(b => b.likes === undefined)
-
-      const sortedBlogs = blogsWithLikes.sort((a, b) => (a.likes > b.likes) ? 1 : ((b.likes > a.likes) ? -1 : 0))
-      setBlogs(sortedBlogs.concat(blogsWithoutLikes))
+      const sortedBlogs = sortBlogsByLikes(blogs)
+      setBlogs(sortedBlogs)
     }
     fetchBlogs()
   }, [user])
@@ -68,7 +72,8 @@ const App = () => {
 
     try {
       const savedBlog = await blogService.create(blog)
-      setBlogs(blogs.concat(savedBlog))
+      const sortedBlogs = sortBlogsByLikes(blogs.concat(savedBlog))
+      setBlogs(sortedBlogs)
 
       setSuccessMessage('New blog added')
       setTimeout(() => {
@@ -98,7 +103,8 @@ const App = () => {
           clonedBlogs[i] = updatedBlog
         }
       })
-      setBlogs(clonedBlogs)
+      const sortedBlogs = sortBlogsByLikes(clonedBlogs)
+      setBlogs(sortedBlogs)
 
       setSuccessMessage('Likes has been updated')
       setTimeout(() => {
