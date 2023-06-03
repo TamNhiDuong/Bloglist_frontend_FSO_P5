@@ -45,11 +45,11 @@ describe('Blog app e2e test', () => {
       cy.contains('Tester logged in')
 
       // create a blog
-      cy.contains('new blog').click()
-      cy.get('#blog-title').type('First blog')
-      cy.get('#blog-author').type('First blog author')
-      cy.get('#blog-url').type('First blog url')
-      cy.contains('save').click()
+      cy.createBlog({
+        title: 'First blog',
+        author: 'First blog author',
+        url: 'First blog url'
+      })
     })
 
     it('A blog can be created', function() {
@@ -103,5 +103,15 @@ describe('Blog app e2e test', () => {
       cy.contains('First blog').parent().find('button').click()
       cy.contains('delete').should('not.exist')
     })
+
+    it('Test blogs are ordered according to likes with the blog with the most likes being first', function() {
+      // create blogs
+      cy.createBlog({
+        title: 'Blogs with 5 likes',
+        author: 'Tester',
+        url: 'test url'
+      })
+    })
   })
+
 })
