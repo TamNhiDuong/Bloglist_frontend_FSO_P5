@@ -107,10 +107,34 @@ describe('Blog app e2e test', () => {
     it('Test blogs are ordered according to likes with the blog with the most likes being first', function() {
       // create blogs
       cy.createBlog({
-        title: 'Blogs with 5 likes',
+        title: 'Blogs with 1 like',
         author: 'Tester',
         url: 'test url'
       })
+
+      cy.createBlog({
+        title: 'Blogs with 2 likes',
+        author: 'Tester',
+        url: 'test url'
+      })
+
+      // like blogs
+      cy.contains('Blogs with 1 like').parent().find('button').click()
+      cy.get('.lbtn').click()
+      cy.contains('Likes: 1')
+
+      cy.contains('Blogs with 2 likes').parent().find('button').click()
+      cy.contains('Blogs with 2 likes').get('.lbtn').click({ multiple: true })
+      cy.contains('Likes: 1')
+      cy.contains('Blogs with 2 likes').get('.lbtn').click({ multiple: true })
+      cy.contains('Likes: 2')
+
+      // open
+      cy.contains('First blog').parent().find('button').click()
+
+      cy.get('.blogDetails').eq(0).should('contain', 'Blogs with 2 likes')
+      cy.get('.blogDetails').eq(1).should('contain', 'Blogs with 1 like')
+      cy.get('.blogDetails').eq(2).should('contain', 'First blog')
     })
   })
 

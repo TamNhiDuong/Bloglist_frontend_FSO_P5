@@ -14,7 +14,7 @@ const Blog = ({ blog, updateBlog, user, deleteBlog }) => {
   }
 
   const blogDetails = () => (
-    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, ...blogStyle }}>
+    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, ...blogStyle }} className='blogDetails'>
       <div>Title: {blog.title}</div>
       <div className='url'>Url: {blog.url}</div>
       <div className='like' >Likes: {blog.likes}
